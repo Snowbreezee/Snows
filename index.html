@@ -124,6 +124,10 @@
 .profile-header h2 {
   margin: 0;
 }
+.random{
+  font-size: 11px;
+  
+}
 
 @media (max-width: 600px) {
   h1 {
@@ -211,6 +215,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100%;
+  justify-content: space-between;
 }
 
 
@@ -236,7 +242,7 @@
 }
     .section-body li {
   font-weight: bold;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.5em;
 }
 
     .section-content.collapsed .section-body {
@@ -332,7 +338,12 @@
   .sidebar {
     padding: calc(var(--topbar-h) + 12px) 16px 18px;
   }
+      .section-body li {
+  font-weight: bold;
+  margin-bottom: 0.5em;
 }
+}
+
 
   </style>
 </head>
@@ -403,7 +414,7 @@
             <li>I can do programming</li>
             <li>I can cook, I guess</li>
             <li>Building Desktop computers and upgrading laptops</li>
-            <li>Using complicated operating systems like Gentoo/Arch Linux</li>
+            <li> Using complicated operating systems like Gentoo/Arch Linux <span class="random">(which is like super useless)</span> </li>
           </ul>
         </div>
       </div>
@@ -421,6 +432,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <div id="favs" class="popup-overlay">
     <div class="popup-box">
@@ -437,8 +449,8 @@
         <img src="AOT.jpg" alt="Attack On Titan" width="150px"; height="200px;">
         <br \>
         <br \>
-        <li>Danganronpa</li>
-        <img src="Danganronpa.webp" alt="Danganronpa" width="150px"; height="200px;">
+        <li>Sword Art Online</li>
+        <img src="sword-art-online-ii.jpg" alt="Sword Art Online" width="150px"; height="200px;">
         <br \>
         <br \>
         <li>Jujutsu Kaisen</li>
