@@ -1,6 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" /> 
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Snowbreeze Hofer - Profile</title>
   <style>
@@ -266,15 +267,31 @@
     }
 
     .popup-box {
-      background: #1a1a1a;
-      padding: 20px 30px;
-      border-radius: 10px;
-      color: white;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 0 20px black;
-      position: relative;
+  background: #1a1a1a;
+  padding: 20px 30px;
+  border-radius: 10px;
+  color: white;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 20px black;
+  position: relative;
+  max-height: 80vh;           
+  overflow-y: auto;        
+  .popup-box::-webkit-scrollbar {
+  width: 8px;
+}
+
+.popup-box::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.popup-box::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+   
+
     }
 
     .close-btn {
@@ -333,11 +350,11 @@
 
     <hr style="margin: 15px 0; border: 0; height: 1px; background-color: rgba(255, 255, 255, 0.2);">
 
-    <h2>My Socials</h2>
+    <h2>Socials</h2>
     <ul>
-      <li><a href="https://www.roblox.com/users/7483179773/profile" target="_blank">Roblox</a></li>
+      <li><a href="https://discord.gg/VrfXnWF9" target="_blank">Join our Discord</a></li>
+      <li><a href="https://www.roblox.com/users/7483179773/profile" target="_blank">ROBLOX Profile</a></li>
       <li><a href="https://web.facebook.com/profile.php?id=61578372636163" target="_blank">Facebook</a></li>
-      <li><a href="https://discord.gg/VrfXnWF9" target="_blank">Join our Discord 🤑 </a></li>
     </ul>
   </div>
 
@@ -411,11 +428,25 @@
       <h3>My Top Anime Picks</h3>
       <br \>
       <ol>
+        
         <li>Cyberpunk: Edgerunners</li>
+        <img src="images.jpg" alt="Cyberpunk" width="150px"; height="200px;">
+        <br \>
+        <br \>
         <li>Attack on Titan</li>
+        <img src="AOT.jpg" alt="Attack On Titan" width="150px"; height="200px;">
+        <br \>
+        <br \>
         <li>Danganronpa</li>
+        <img src="Danganronpa.webp" alt="Danganronpa" width="150px"; height="200px;">
+        <br \>
+        <br \>
         <li>Jujutsu Kaisen</li>
-        <li>Dororo</li>
+        <img src="jujutsu.jpg" alt="Jujutsu Kaisen" width="150px"; height="200px;">
+        <br \>
+        <br \>
+        <li>Katekyo Hitman Reborn!</li>
+        <img src="Hitman.jpg" alt="Katekyo Hitman Reborn!" width="150px"; height="200px;">
       </ol>
     </div>
   </div>
