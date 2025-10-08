@@ -175,26 +175,31 @@
   </style>
 </head>
 <body>
-  <!-- Top Bar -->
-  <div class="top-bar">
+    <div class="top-bar">
     <button class="menu-btn" onclick="document.body.classList.toggle('sidebar-open')">☰ Menu</button>
   </div>
 
-  <!-- Sidebar -->
   <div class="sidebar" aria-hidden="true">
     <h2>Pages</h2>
     <ul>
       <li><a href="index.html">Introduction</a></li>
-      <li><a href="index2.html" class="active">More About Me</a></li>
+      <li><a href="#" class="active">Music Player</a></li>
+    </ul>
+
+    <hr style="margin: 15px 0; border: 0; height: 1px; background-color: rgba(255, 255, 255, 0.2);">
+
+    <h2>Socials</h2>
+    <ul>
+      <li><a href="https://www.roblox.com/users/7483179773/profile" target="_blank">ROBLOX Profile</a></li>
+      <li><a href="#"_blank>Facebook</a></li>
     </ul>
   </div>
 
-  <!-- Music Player -->
   <div class="container">
     <div class="music-box">
       <h2>🎧 Music Player</h2>
-      <div class="track-info" id="trackInfo">Track 1: Chill Beats</div>
-      <audio id="audioPlayer" src="music1.mp3" controls></audio>
+      <div class="track-info" id="trackInfo">Track 1: Everybody Falls.mp3</div>
+      <audio id="audioPlayer" src="Everybody Falls.mp3" controls></audio>
 
       <div class="controls">
         <button onclick="prevTrack()">⏮ Prev</button>
@@ -209,9 +214,9 @@
     const trackInfo = document.getElementById('trackInfo');
 
     const tracks = [
-      { title: "Track 1: Everybody Falls (Fall Guys Theme)", file: "Everybody Falls.mp3" },
-      { title: "Track 2: Lofi Vibes", file: "music2.mp3" },
-      { title: "Track 3: Night Drive", file: "music3.mp3" }
+      { title: "Track 1: Everybody Falls.mp3", file: "Everybody Falls.mp3" },
+      { title: "Track 2: american boy x shibuya x chanel.mp3", file: "american boy x shibuya x chanel.mp3" },
+      { title: "Track 3: scars.mp3", file: "scars.mp3" }
     ];
 
     let currentTrack = 0;
