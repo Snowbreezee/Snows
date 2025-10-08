@@ -1,10 +1,248 @@
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>More About Me - Music Player</title>
+  <link rel="stylesheet" href="styles.css"> <!-- If you split styles -->
+  <style>
+    :root {
+      --sidebar-w: 250px;
+      --topbar-h: 56px;
+    }
 
-    </head>
-    <body>  
-        <p>s</p>
-        <a href="index.html"> click here to get redirected back</a>
-    </body>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    html, body {
+      min-height: 100vh;
+      font-family: sans-serif;
+      color: white;
+      background-image: url('snow.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--topbar-h);
+      background: rgba(0,0,0,0.5);
+      padding: 8px 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      z-index: 1001;
+    }
+
+    .menu-btn {
+      background: white;
+      color: black;
+      border: none;
+      padding: 8px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: calc(-1 * var(--sidebar-w));
+      width: var(--sidebar-w);
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      padding: calc(var(--topbar-h) + 14px) 20px 20px;
+      box-shadow: -3px 0 5px rgba(0,0,0,0.5);
+      transition: right 0.3s ease;
+      z-index: 1000;
+    }
+
+    body.sidebar-open .sidebar {
+      right: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #cfcfcf;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding-bottom: 8px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding-top: 10px;
+    }
+
+    .sidebar li {
+      margin: 10px 0;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .sidebar a.active {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: calc(var(--topbar-h) + 60px) 20px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .music-box {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .music-box h2 {
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .controls button {
+      background: #1db954;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .controls button:hover {
+      background: #1ed760;
+    }
+
+    .track-info {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ccc;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 100px 10px;
+      }
+
+      .controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <button class="menu-btn" onclick="document.body.classList.toggle('sidebar-open')">☰ Menu</button>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" aria-hidden="true">
+    <h2>Pages</h2>
+    <ul>
+      <li><a href="index.html">Introduction</a></li>
+      <li><a href="index2.html" class="active">More About Me</a></li>
+    </ul>
+  </div>
+
+  <!-- Music Player -->
+  <div class="container">
+    <div class="music-box">
+      <h2>🎧 Music Player</h2>
+      <div class="track-info" id="trackInfo">Track 1: Chill Beats</div>
+      <audio id="audioPlayer" src="music1.mp3" controls></audio>
+
+      <div class="controls">
+        <button onclick="prevTrack()">⏮ Prev</button>
+        <button onclick="togglePlay()">▶️ / ⏸</button>
+        <button onclick="nextTrack()">⏭ Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById('audioPlayer');
+    const trackInfo = document.getElementById('trackInfo');
+
+    const tracks = [
+      { title: "Track 1: Everybody Falls (Fall Guys Theme)", file: "Everybody Falls.mp3" },
+      { title: "Track 2: Lofi Vibes", file: "music2.mp3" },
+      { title: "Track 3: Night Drive", file: "music3.mp3" }
+    ];
+
+    let currentTrack = 0;
+
+    function loadTrack(index) {
+      currentTrack = index;
+      audio.src = tracks[currentTrack].file;
+      trackInfo.textContent = tracks[currentTrack].title;
+      audio.play();
+    }
+
+    function nextTrack() {
+      currentTrack = (currentTrack + 1) % tracks.length;
+      loadTrack(currentTrack);
+    }
+
+    function prevTrack() {
+      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrack);
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
+    audio.addEventListener('ended', nextTrack);
+  </script>
+</body>
 </html>
