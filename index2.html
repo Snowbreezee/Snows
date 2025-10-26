@@ -198,14 +198,16 @@
 
   <div class="container">
     <div class="music-box">
-      <h2>🎧 Music Player</h2>
-      <div class="track-info" id="trackInfo">Track 1: shoutout to skeleton for this mel</div>
-      <audio id="audioPlayer" src="skeleton.mp3" controls></audio>
+      <h2>My top 3 songs</h2>
+      <div>
+        class="track-info" id="trackInfo">Track 1: Nope your too late i already died
+      </div>
+      <audio id="audioPlayer" src="nope.mp3" controls></audio>
 
       <div class="controls">
-        <button onclick="prevTrack()">⏮ Prev</button>
+        <button onclick="prevTrack()">⏮ </button>
         <button onclick="togglePlay()">▶️ / ⏸</button>
-        <button onclick="nextTrack()">⏭ Next</button>
+        <button onclick="nextTrack()">⏭ t</button>
       </div>
     </div>
   </div>
@@ -215,7 +217,7 @@
     const trackInfo = document.getElementById('trackInfo');
 
     const tracks = [
-      { title: "Track 1: shoutout to skeleton for this mel", file: "skeleton.mp3" },
+      { title: "Track 1: Nope your too late i alreadt died", file: "nope.mp3" },
       { title: "Track 2: A stanger I remain", file: "stranger.mp3" },
       { title: "Track 3: Run to the Edge", file: "Run.mp3" }
     ];
