@@ -174,19 +174,19 @@
       }
     }
 
-    #draggableDiv {
-  position: absolute; 
-  cursor: grab;
-  background-color: black;
-  border: 1px solid blue;
-  padding: 20px;
-  text-align: center;
-  opacity: 0.5;
-}
-
-#draggableDiv > * {
-  opacity: 1;
-}
+<style>
+  #draggableDiv {
+    width: 300px;
+    padding: 10px;
+    background: rgba(34, 34, 34, 1);
+    color: white;
+    border-radius: 12px;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    cursor: grab;
+    transition: background 0.2s ease;
+  }
   </style>
 </head>
 <body>
