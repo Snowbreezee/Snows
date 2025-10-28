@@ -347,7 +347,10 @@
 }
 }
 
-
+  .Snowbreeze-blue{
+  text-color: #04D9FF;
+  opacity: 0.7;
+}
   </style>
 </head>
 <body>
@@ -385,7 +388,7 @@
         <h2>A. Personal Info</h2>
         <div class="section-body">
           <ul>
-            <li><b>NAME:</b> Snowbreeze Hofer</li>
+            <li><b>NAME:</b> <span class="" Snowbreeze Hofer</li>
             <li><b>NICKNAME:</b> J.Em</li>
             <li><b>BIRTH YEAR:</b> 2008</li>
             <li><b>AGE:</b> 16</li>
@@ -472,7 +475,7 @@
   const section = button.parentElement;
   const body = section.querySelector(".section-body");
   section.classList.toggle("collapsed");
-  button.textContent = section.classList.contains("collapsed") ? "[⌄]" : "[-]";
+  button.textContent = section.classList.contains("collapsed") ? "[⌄]" : "[ - ]";
     }
 
     function openPopup(event) {
@@ -486,6 +489,7 @@
   </script>
 </body>
 </html>
+
 
 
 
