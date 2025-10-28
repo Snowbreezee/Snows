@@ -1,207 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>More About Me - Music Player</title>
-  <style>
-  :root {
-  --sidebar-w: 250px;
-  --topbar-h: 56px;
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Music Player — Snowbreeze</title>
+<style>
+:root{
+  --topbar-h:56px;
+  --sidebar-w:250px;
+  --panel-w:720px;
+  --panel-padding:40px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  width:100%;
+  height:100%;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background-image:url('snow.jpg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  z-index:0;
+  pointer-events:none;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* top bar */
+.top-bar{
+  position:fixed;
+  top:0;left:0;
+  height:var(--topbar-h);
+  width:100%;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding:8px 20px;
+  z-index:1001;
+  background:rgba(0,0,0,0.45);
+}
+.menu-btn{
+  background:#fff;color:#000;border:0;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: sans-serif;
-  color: white;
-  background-image: url('snow.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+/* sidebar (kept minimal so not interfering) */
+.sidebar{
+  position:fixed; top:0; right: calc(-1*var(--sidebar-w));
+  width:var(--sidebar-w); height:100%;
+  padding:calc(var(--topbar-h)+12px) 16px 18px;
+  background:rgba(0,0,0,0.8);
+  box-shadow:-3px 0 6px rgba(0,0,0,0.5);
+  z-index:1000;
+  transition:right .28s ease;
+}
+body.sidebar-open .sidebar{ right:0 }
+
+/* overall container (keeps full viewport) */
+.app-stage{
+  position:relative;
+  width:100%;
+  height:100vh;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:calc(var(--topbar-h) + 20px) 20px;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 0;
-  pointer-events: none;
+/* Draggable panel (desktop behavior) */
+#draggableDiv{
+  width:var(--panel-w);
+  max-width:calc(100% - 40px);
+  border-radius:18px;
+  background:rgba(10,10,10,0.55);
+  backdrop-filter:blur(8px);
+  padding:var(--panel-padding);
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  z-index:10;
+  position:relative;
+  cursor:grab;
+  user-select:none;
+  transform:translateY(0);
 }
 
-.top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--topbar-h);
-  background: rgba(0,0,0,0.5);
-  padding: 8px 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 1001;
+/* inner music box */
+.music-box{
+  width:100%;
+  margin:0 auto;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+.music-box h2{
+  font-size:28px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.track-info{
+  color:#d0d0d0;
+  font-size:15px;
+  max-width:90%;
+  text-wrap:balance;
 }
 
-.menu-btn {
-  background: white;
-  color: black;
-  border: none;
-  padding: 8px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
+/* native audio control container - ensure progress is wide and visible */
+.audio-wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:6px;
+}
+audio{
+  width:100%;
+  max-width:100%;
+  outline:none;
+  border-radius:10px;
+  background:transparent;
+  display:block;
 }
 
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: calc(-1 * var(--sidebar-w));
-  width: var(--sidebar-w);
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  padding: calc(var(--topbar-h) + 14px) 20px 20px;
-  box-shadow: -3px 0 5px rgba(0,0,0,0.5);
-  transition: right 0.3s ease;
-  z-index: 1000;
+/* control buttons under the audio element */
+.controls{
+  display:flex;
+  gap:18px;
+  margin-top:18px;
+  align-items:center;
+  justify-content:center;
+}
+.ctrl-btn{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,0.75);border:0;color:#fff;font-size:20px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5);cursor:pointer;
+}
+.play-toggle{
+  width:68px;height:44px;border-radius:8px;background:#ff9f1c;color:#fff;border:0;font-weight:800;
+  display:flex;align-items:center;justify-content:center;padding:6px 10px;gap:8px;
 }
 
-body.sidebar-open .sidebar {
-  right: 0;
-}
-
-.sidebar h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #cfcfcf;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-  padding-bottom: 8px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding-top: 10px;
-}
-
-.sidebar li {
-  margin: 10px 0;
-}
-
-.sidebar a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-.sidebar a.active {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  font-weight: bold;
-}
-
-.container {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  z-index: 1;
-}
-
-#draggableDiv {
-  width: 640px;
-  background: rgba(20, 20, 20, 0.7);
-  border-radius: 25px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  color: #fff;
-  padding: 40px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: move;
-}
-
-.music-box {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 30px;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.music-box h2 {
-  margin-bottom: 20px;
-}
-
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.controls button {
-  background: black;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.controls button:hover {
-  background: #313499;
-}
-
-.track-info {
-  margin-top: 10px;
-  font-size: 18px;
-  color: #ccc;
-}
-
-audio {
-  width: 110%;
-  margin: 15px -5%;
-  background: black;
-  border-radius: 10px;
-}
-
-@media (max-width: 700px) {
-  html, body {
-    overflow-x: auto;
-  }
-
-  #draggableDiv {
-    width: 640px;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -35%);
-  }
-
-  audio {
-    width: 130%;
-    margin: 15px -15%;
+/* make sure the panel is centered visually on desktop */
+@media(min-width:921px){
+  #draggableDiv{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    cursor:grab;
   }
 }
 
+/* mobile behaviour */
+/* on mobile we disable drag, allow horizontal scroll to let native audio be wide */
+@media(max-width:920px){
+  :root{ --panel-w:720px }
+  body{ overflow-x:auto; overflow-y:auto; }
+  .app-stage{ align-items:flex-start; padding:calc(var(--topbar-h)+12px) 12px 60px; min-height:100vh; }
+  #draggableDiv{
+    position:relative;
+    left:50%;
+    transform:translateX(-50%);
+    margin:18px auto;
+    width:var(--panel-w);
+    padding:28px;
+    cursor:default;
+  }
+  audio{ width:120%; margin-left:-10%; }
+}
 
-  </style>
+/* very small screens - nudge progress even wider if the user asked for it */
+@media(max-width:420px){
+  #draggableDiv{ width:720px; padding:22px; border-radius:16px; }
+  audio{ width:140%; margin-left:-20%; }
+}
+</style>
 </head>
 <body>
   <div class="top-bar">
@@ -210,107 +192,118 @@ audio {
 
   <div class="sidebar" aria-hidden="true">
     <h2>Pages</h2>
-    <ul>
-      <li><a href="index.html">Introduction</a></li>
-      <li><a href="#" class="active">Music Player</a></li>
-    </ul>
-
-    <hr style="margin: 15px 0; border: 0; height: 1px; background-color: rgba(255, 255, 255, 0.2);">
-
-    <h2>My Socials</h2>
-    <ul>
-      <li><a href="https://www.roblox.com/users/7483179773/profile" target="_blank">Roblox</a></li>
-      <li><a href="https://www.facebook.com/profile.php?id=61578372636163" target="_blank">Facebook</a></li>
-      <li><a href="https://github.com/Snowbreezee" target="_blank">Github</a></li>
+    <ul style="list-style:none;padding:0;margin-top:8px">
+      <li><a href="index.html" style="color:#fff;text-decoration:none">Introduction</a></li>
+      <li style="margin-top:8px"><a href="#" style="color:#fff;text-decoration:underline;font-weight:700">Music Player</a></li>
     </ul>
   </div>
 
-  <div id="draggableDiv">
-    <div class="container">
+  <main class="app-stage">
+    <section id="draggableDiv" aria-label="music panel">
       <div class="music-box">
         <h2>My top 5 songs</h2>
         <div class="track-info" id="trackInfo">Track 1: Nope your too late i already died</div>
-        <audio id="audioPlayer" src="nope.mp3" controls></audio>
 
-        <div class="controls">
-          <button onclick="prevTrack()">⏮</button>
-          <button onclick="togglePlay()">▶️ / ⏸</button>
-          <button onclick="nextTrack()">⏭</button>
+        <div class="audio-wrap">
+          <audio id="audioPlayer" src="nope.mp3" controls preload="metadata"></audio>
+        </div>
+
+        <div class="controls" aria-hidden="false">
+          <button class="ctrl-btn" id="prevBtn" title="Previous">⏮</button>
+          <button class="play-toggle" id="playBtn" title="Play / Pause">▶️</button>
+          <button class="ctrl-btn" id="nextBtn" title="Next">⏭</button>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <script>
-    const audio = document.getElementById('audioPlayer');
-    const trackInfo = document.getElementById('trackInfo');
-    const tracks = [
-      { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
-      { title: "Track 2: A stranger I remain", file: "stranger.mp3" },
-      { title: "Track 3: Run to the Edge", file: "Run.mp3" },
-      { title: "Track 4: Re:Re", file: "rere.mp3" },
-      { title: "Track 5: New Horizons", file: "newh.mp3" }
-    ];
-    let currentTrack = 0;
+<script>
+(function(){
+  const audio = document.getElementById('audioPlayer');
+  const playBtn = document.getElementById('playBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const trackInfo = document.getElementById('trackInfo');
+  const panel = document.getElementById('draggableDiv');
 
-    function loadTrack(index) {
-      currentTrack = index;
-      audio.src = tracks[currentTrack].file;
-      trackInfo.textContent = tracks[currentTrack].title;
-      audio.play();
+  const tracks = [
+    {title:"Track 1: Nope your too late i already died", file:"nope.mp3"},
+    {title:"Track 2: A stranger I remain", file:"stranger.mp3"},
+    {title:"Track 3: Run to the Edge", file:"Run.mp3"},
+    {title:"Track 4: Re:Re", file:"rere.mp3"},
+    {title:"Track 5: New Horizons", file:"newh.mp3"}
+  ];
+  let current = 0;
+  function load(idx, autoplay=false){
+    current = idx;
+    audio.src = tracks[current].file;
+    trackInfo.textContent = tracks[current].title;
+    if(autoplay) audio.play().catch(()=>{});
+    updatePlayBtn();
+  }
+  nextBtn.addEventListener('click', ()=> load((current+1)%tracks.length,true));
+  prevBtn.addEventListener('click', ()=> load((current-1+tracks.length)%tracks.length,true));
+  audio.addEventListener('ended', ()=> load((current+1)%tracks.length,true));
+  playBtn.addEventListener('click', ()=>{
+    if(audio.paused) audio.play(); else audio.pause();
+    updatePlayBtn();
+  });
+  audio.addEventListener('play', updatePlayBtn);
+  audio.addEventListener('pause', updatePlayBtn);
+  function updatePlayBtn(){
+    playBtn.textContent = audio.paused ? "▶️" : "⏸";
+  }
+  load(0,false);
+
+  function isMobile(){ return window.matchMedia("(max-width:920px)").matches; }
+
+  let dragging=false, startX=0, startY=0, startLeft=0, startTop=0;
+  panel.addEventListener('pointerdown', (e)=>{
+    if(isMobile()) return;
+    if(e.target.closest('button, audio, input, a')) return;
+    dragging=true;
+    panel.setPointerCapture(e.pointerId);
+    panel.style.transition = "none";
+    startX = e.clientX; startY = e.clientY;
+    const rect = panel.getBoundingClientRect();
+    startLeft = rect.left; startTop = rect.top;
+    document.body.style.userSelect = "none";
+  });
+  window.addEventListener('pointermove', (e)=>{
+    if(!dragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    panel.style.left = (startLeft + dx) + "px";
+    panel.style.top = (startTop + dy) + "px";
+    panel.style.transform = "none";
+    panel.style.position = "absolute";
+  });
+  window.addEventListener('pointerup', (e)=>{
+    if(!dragging) return;
+    dragging=false;
+    panel.releasePointerCapture && panel.releasePointerCapture();
+    document.body.style.userSelect = "";
+    panel.style.transition = "";
+  });
+
+  window.addEventListener('resize', ()=>{
+    if(!isMobile()){
+      panel.style.left = "";
+      panel.style.top = "";
+      panel.style.position = "absolute";
+      panel.style.transform = "translate(-50%,-50%)";
+      panel.style.left = "50%";
+      panel.style.top = "50%";
+    } else {
+      panel.style.left = "50%";
+      panel.style.top = "";
+      panel.style.transform = "translateX(-50%)";
+      panel.style.position = "relative";
     }
+  });
 
-    function nextTrack() {
-      currentTrack = (currentTrack + 1) % tracks.length;
-      loadTrack(currentTrack);
-    }
-
-    function prevTrack() {
-      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-      loadTrack(currentTrack);
-    }
-
-    function togglePlay() {
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    }
-
-    audio.addEventListener('ended', nextTrack);
-
-    const dragDiv = document.getElementById("draggableDiv");
-    let offsetX, offsetY, isDragging = false;
-
-    function isMobile() {
-      return window.matchMedia("(max-width: 768px)").matches;
-    }
-
-    dragDiv.addEventListener("mousedown", (e) => {
-      if (isMobile() || e.target.closest("button, audio, input, select, textarea")) return;
-      isDragging = true;
-      offsetX = e.clientX - dragDiv.offsetLeft;
-      offsetY = e.clientY - dragDiv.offsetTop;
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      if (!isDragging || isMobile()) return;
-      dragDiv.style.left = e.clientX - offsetX + "px";
-      dragDiv.style.top = e.clientY - offsetY + "px";
-    });
-
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
-    });
-
-    
-  </script>
+  setTimeout(()=>{ window.dispatchEvent(new Event('resize')); },30);
+})();
+</script>
 </body>
 </html>
-
-
-
-
-
-
