@@ -378,7 +378,7 @@
   <div class="container">
     <div class="left-column">
       <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[↓]</button>
+        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
         <h2>A. Personal Info</h2>
         <div class="section-body">
           <ul>
@@ -393,7 +393,7 @@
       </div>
 
       <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[↓]</button>
+        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
         <h2>B. Dislikes</h2>
         <div class="section-body">
           <ul>
@@ -407,7 +407,7 @@
 
     <div class="right-column">
       <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[↓]</button>
+        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
         <h2>C. Skills</h2>
         <div class="section-body">
           <ul>
@@ -420,7 +420,7 @@
       </div>
 
       <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[↓]</button>
+        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
         <h2>D. Interests</h2>
         <div class="section-body">
           <ul>
@@ -469,7 +469,7 @@
   const section = button.parentElement;
   const body = section.querySelector(".section-body");
   section.classList.toggle("collapsed");
-  button.textContent = section.classList.contains("collapsed") ? "[↓]" : "[↑]";
+  button.textContent = section.classList.contains("collapsed") ? "[⌄]" : "[-]";
     }
 
     function openPopup(event) {
@@ -483,4 +483,5 @@
   </script>
 </body>
 </html>
+
 
