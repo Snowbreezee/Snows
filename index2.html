@@ -163,31 +163,53 @@
       background: black;
     }
 
-    #draggableDiv {
-      width: 500px;
-      padding: 30px;
-      background: rgba(34, 34, 34, 0.6);
-      color: white;
-      position: absolute;
-      top: 100px;
-      left: 100px;
-      border-radius: 14px;
-      cursor: grab;
-      user-select: none;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(6px);
-    }
+#draggableDiv {
+  width: 500px;
+  padding: 30px;
+  background: rgba(34, 34, 34, 0.6);
+  color: white;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  border-radius: 14px;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+}
 
-    @media (max-width: 768px) {
-      #draggableDiv {
-        position: relative;
-        width: 90%;
-        left: 0;
-        top: 120px;
-        margin: 0 auto;
-        cursor: default;
-      }
-    }
+    @media (max-width: 900px) {
+  #draggableDiv {
+    position: relative;
+    top: 120px;
+    left: 0;
+    width: 90%;
+    max-width: 480px;
+    margin: 0 auto;
+    cursor: default;
+  }
+
+  .container {
+    padding: 0;
+    display: block;
+  }
+
+  .music-box {
+    width: 100%;
+    max-width: none;
+    padding: 25px;
+  }
+
+  .controls {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  audio {
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
