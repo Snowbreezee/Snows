@@ -225,52 +225,53 @@
     </div>
   </div>
 </div>
-  <script>
-    const audio = document.getElementById('audioPlayer');
-    const trackInfo = document.getElementById('trackInfo');
+<script>
+  const audio = document.getElementById('audioPlayer');
+  const trackInfo = document.getElementById('trackInfo');
 
-    const tracks = [
-      { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
-      { title: "Track 2: A stanger I remain", file: "stranger.mp3" },
-      { title: "Track 3: Run to the Edge", file: "Run.mp3" },
-      { title: "Track 4: Re:Re", file: "rere.mp3" },
-      { title: "Track 5: New Horizons", file: "newh.mp3" }
-    ];
+  const tracks = [
+    { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
+    { title: "Track 2: A stranger I remain", file: "stranger.mp3" },
+    { title: "Track 3: Run to the Edge", file: "Run.mp3" },
+    { title: "Track 4: Re:Re", file: "rere.mp3" },
+    { title: "Track 5: New Horizons", file: "newh.mp3" }
+  ];
 
-    let currentTrack = 0;
+  let currentTrack = 0;
 
-    function loadTrack(index) {
-      currentTrack = index;
-      audio.src = tracks[currentTrack].file;
-      trackInfo.textContent = tracks[currentTrack].title;
+  function loadTrack(index) {
+    currentTrack = index;
+    audio.src = tracks[currentTrack].file;
+    trackInfo.textContent = tracks[currentTrack].title;
+    audio.play();
+  }
+
+  function nextTrack() {
+    currentTrack = (currentTrack + 1) % tracks.length;
+    loadTrack(currentTrack);
+  }
+
+  function prevTrack() {
+    currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+    loadTrack(currentTrack);
+  }
+
+  function togglePlay() {
+    if (audio.paused) {
       audio.play();
+    } else {
+      audio.pause();
     }
+  }
 
-    function nextTrack() {
-      currentTrack = (currentTrack + 1) % tracks.length;
-      loadTrack(currentTrack);
-    }
-
-    function prevTrack() {
-      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-      loadTrack(currentTrack);
-    }
-
-    function togglePlay() {
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    }
-
-    audio.addEventListener('ended', nextTrack);
+  audio.addEventListener('ended', nextTrack);
 
   const dragDiv = document.getElementById("draggableDiv");
   let offsetX, offsetY, isDragging = false;
 
   dragDiv.addEventListener("mousedown", (e) => {
     if (e.target.closest("button, audio")) return;
+
     isDragging = true;
     dragDiv.classList.add("dragging");
     offsetX = e.clientX - dragDiv.offsetLeft;
@@ -287,13 +288,6 @@
     isDragging = false;
     dragDiv.classList.remove("dragging");
   });
-
-  function prevTrack() { console.log("Prev track"); }
-  function togglePlay() {
-    const player = document.getElementById("audioPlayer");
-    player.paused ? player.play() : player.pause();
-  }
-  function nextTrack() { console.log("Next track"); }
-  </script>
+</script>
 </body>
 </html>
