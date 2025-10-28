@@ -10,21 +10,25 @@
   --sidebar-w:250px;
   --panel-w:720px;
   --panel-padding:40px;
+  --panel-bg: rgba(10,10,10,0.55);
+  --control-bg: rgba(0,0,0,0.75);
+  --muted-text: #d0d0d0;
+  --accent: #ff9f1c;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{
   width:100%;
   height:100%;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  font-family: "Helvetica Neue", Arial, system-ui, sans-serif;
   background-image:url('snow.jpg');
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  background-attachment:fixed;
   color:#fff;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
+/* keep the dark overlay but not fixed background attachment */
 body::before{
   content:"";
   position:fixed;
@@ -51,7 +55,7 @@ body::before{
   background:#fff;color:#000;border:0;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;
 }
 
-/* sidebar (kept minimal so not interfering) */
+/* sidebar */
 .sidebar{
   position:fixed; top:0; right: calc(-1*var(--sidebar-w));
   width:var(--sidebar-w); height:100%;
@@ -63,7 +67,7 @@ body::before{
 }
 body.sidebar-open .sidebar{ right:0 }
 
-/* overall container (keeps full viewport) */
+/* stage */
 .app-stage{
   position:relative;
   width:100%;
@@ -75,12 +79,12 @@ body.sidebar-open .sidebar{ right:0 }
   padding:calc(var(--topbar-h) + 20px) 20px;
 }
 
-/* Draggable panel (desktop behavior) */
+/* panel */
 #draggableDiv{
   width:var(--panel-w);
   max-width:calc(100% - 40px);
   border-radius:18px;
-  background:rgba(10,10,10,0.55);
+  background:var(--panel-bg);
   backdrop-filter:blur(8px);
   padding:var(--panel-padding);
   box-shadow:0 20px 60px rgba(0,0,0,0.6);
@@ -88,10 +92,9 @@ body.sidebar-open .sidebar{ right:0 }
   position:relative;
   cursor:grab;
   user-select:none;
-  transform:translateY(0);
 }
 
-/* inner music box */
+/* content */
 .music-box{
   width:100%;
   margin:0 auto;
@@ -107,19 +110,21 @@ body.sidebar-open .sidebar{ right:0 }
   margin-bottom:6px;
 }
 .track-info{
-  color:#d0d0d0;
+  color:var(--muted-text);
   font-size:15px;
   max-width:90%;
   text-wrap:balance;
 }
 
-/* native audio control container - ensure progress is wide and visible */
+/* audio wrapper & ensure progress is wide and visible */
 .audio-wrap{
   width:100%;
   display:flex;
   justify-content:center;
   align-items:center;
   margin-top:6px;
+  z-index:6;
+  position:relative;
 }
 audio{
   width:100%;
@@ -130,7 +135,7 @@ audio{
   display:block;
 }
 
-/* control buttons under the audio element */
+/* controls */
 .controls{
   display:flex;
   gap:18px;
@@ -141,15 +146,22 @@ audio{
 .ctrl-btn{
   width:56px;height:56px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,0.75);border:0;color:#fff;font-size:20px;
+  background:var(--control-bg);border:0;color:#fff;font-size:20px;
   box-shadow:0 6px 18px rgba(0,0,0,0.5);cursor:pointer;
 }
+.ctrl-btn:active{ transform:translateY(1px); }
+
 .play-toggle{
-  width:68px;height:44px;border-radius:8px;background:#ff9f1c;color:#fff;border:0;font-weight:800;
-  display:flex;align-items:center;justify-content:center;padding:6px 10px;gap:8px;
+  min-width:68px;height:44px;border-radius:8px;background:var(--control-bg);color:#fff;border:0;font-weight:800;
+  display:flex;align-items:center;justify-content:center;padding:6px 12px;gap:8px; font-size:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5); cursor:pointer;
 }
 
-/* make sure the panel is centered visually on desktop */
+/* control visuals for accessibility */
+.ctrl-btn[title]{ outline: none; }
+.play-toggle[title]{ outline: none; }
+
+/* desktop centered draggable default */
 @media(min-width:921px){
   #draggableDiv{
     position:absolute;
@@ -160,8 +172,7 @@ audio{
   }
 }
 
-/* mobile behaviour */
-/* on mobile we disable drag, allow horizontal scroll to let native audio be wide */
+/* mobile: allow horizontal scrolling and keep audio wide */
 @media(max-width:920px){
   :root{ --panel-w:720px }
   body{ overflow-x:auto; overflow-y:auto; }
@@ -178,7 +189,7 @@ audio{
   audio{ width:120%; margin-left:-10%; }
 }
 
-/* very small screens - nudge progress even wider if the user asked for it */
+/* very small screens - widen progress more if needed */
 @media(max-width:420px){
   #draggableDiv{ width:720px; padding:22px; border-radius:16px; }
   audio{ width:140%; margin-left:-20%; }
@@ -210,7 +221,7 @@ audio{
 
         <div class="controls" aria-hidden="false">
           <button class="ctrl-btn" id="prevBtn" title="Previous">⏮</button>
-          <button class="play-toggle" id="playBtn" title="Play / Pause">▶️</button>
+          <button class="play-toggle" id="playBtn" title="Play / Pause">▶</button>
           <button class="ctrl-btn" id="nextBtn" title="Next">⏭</button>
         </div>
       </div>
@@ -251,18 +262,19 @@ audio{
   audio.addEventListener('play', updatePlayBtn);
   audio.addEventListener('pause', updatePlayBtn);
   function updatePlayBtn(){
-    playBtn.textContent = audio.paused ? "▶️" : "⏸";
+    playBtn.textContent = audio.paused ? "▶" : "⏸";
   }
   load(0,false);
 
   function isMobile(){ return window.matchMedia("(max-width:920px)").matches; }
 
+  /* draggable on desktop only - pointer events */
   let dragging=false, startX=0, startY=0, startLeft=0, startTop=0;
   panel.addEventListener('pointerdown', (e)=>{
     if(isMobile()) return;
     if(e.target.closest('button, audio, input, a')) return;
     dragging=true;
-    panel.setPointerCapture(e.pointerId);
+    panel.setPointerCapture?.(e.pointerId);
     panel.style.transition = "none";
     startX = e.clientX; startY = e.clientY;
     const rect = panel.getBoundingClientRect();
@@ -281,7 +293,7 @@ audio{
   window.addEventListener('pointerup', (e)=>{
     if(!dragging) return;
     dragging=false;
-    panel.releasePointerCapture && panel.releasePointerCapture();
+    panel.releasePointerCapture?.();
     document.body.style.userSelect = "";
     panel.style.transition = "";
   });
