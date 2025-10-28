@@ -183,13 +183,23 @@
     position: relative;
     top: 80px;
     left: 0;
-    width: 95%;
-    max-width: 600px;
+    width: 600px; /* keep full original size */
     padding: 35px 40px;
     margin: 0 auto;
     border-radius: 20px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    overflow-x: auto; /* allows horizontal scroll */
   }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .music-box {
+    width: 600px;
+    padding: 30px;
+  }
+}
 
   .music-box {
     width: 100%;
