@@ -226,68 +226,69 @@
   </div>
 </div>
 <script>
-  const audio = document.getElementById('audioPlayer');
-  const trackInfo = document.getElementById('trackInfo');
+const audio = document.getElementById('audioPlayer');
+const trackInfo = document.getElementById('trackInfo');
 
-  const tracks = [
-    { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
-    { title: "Track 2: A stranger I remain", file: "stranger.mp3" },
-    { title: "Track 3: Run to the Edge", file: "Run.mp3" },
-    { title: "Track 4: Re:Re", file: "rere.mp3" },
-    { title: "Track 5: New Horizons", file: "newh.mp3" }
-  ];
+const tracks = [
+  { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
+  { title: "Track 2: A stranger I remain", file: "stranger.mp3" },
+  { title: "Track 3: Run to the Edge", file: "Run.mp3" },
+  { title: "Track 4: Re:Re", file: "rere.mp3" },
+  { title: "Track 5: New Horizons", file: "newh.mp3" }
+];
 
-  let currentTrack = 0;
+let currentTrack = 0;
 
-  function loadTrack(index) {
-    currentTrack = index;
-    audio.src = tracks[currentTrack].file;
-    trackInfo.textContent = tracks[currentTrack].title;
+function loadTrack(index) {
+  currentTrack = index;
+  audio.src = tracks[currentTrack].file;
+  trackInfo.textContent = tracks[currentTrack].title;
+  audio.play();
+}
+
+function nextTrack() {
+  currentTrack = (currentTrack + 1) % tracks.length;
+  loadTrack(currentTrack);
+}
+
+function prevTrack() {
+  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+  loadTrack(currentTrack);
+}
+
+function togglePlay() {
+  if (audio.paused) {
     audio.play();
+  } else {
+    audio.pause();
   }
+}
 
-  function nextTrack() {
-    currentTrack = (currentTrack + 1) % tracks.length;
-    loadTrack(currentTrack);
-  }
+audio.addEventListener('ended', nextTrack);
 
-  function prevTrack() {
-    currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-    loadTrack(currentTrack);
-  }
 
-  function togglePlay() {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  }
+const dragDiv = document.getElementById("draggableDiv");
+let offsetX, offsetY, isDragging = false;
 
-  audio.addEventListener('ended', nextTrack);
+dragDiv.addEventListener("mousedown", (e) => {
+  if (e.target.closest("button, audio, input, select, textarea")) return;
 
-  const dragDiv = document.getElementById("draggableDiv");
-  let offsetX, offsetY, isDragging = false;
+  isDragging = true;
+  dragDiv.classList.add("dragging");
+  offsetX = e.clientX - dragDiv.offsetLeft;
+  offsetY = e.clientY - dragDiv.offsetTop;
+});
 
-  dragDiv.addEventListener("mousedown", (e) => {
-    if (e.target.closest("button, audio")) return;
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+  dragDiv.style.left = e.clientX - offsetX + "px";
+  dragDiv.style.top = e.clientY - offsetY + "px";
+});
 
-    isDragging = true;
-    dragDiv.classList.add("dragging");
-    offsetX = e.clientX - dragDiv.offsetLeft;
-    offsetY = e.clientY - dragDiv.offsetTop;
-  });
-
-  document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    dragDiv.style.left = e.clientX - offsetX + "px";
-    dragDiv.style.top = e.clientY - offsetY + "px";
-  });
-
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    dragDiv.classList.remove("dragging");
-  });
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+  dragDiv.classList.remove("dragging");
+});
 </script>
 </body>
 </html>
