@@ -26,18 +26,17 @@
       background-repeat: no-repeat;
     }
 
-    body::before {
-      content: "";
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 0;
-      pointer-events: none;
-      overflow-x: hidden;
-      filter: brightness(80%);
-    }
+body::before {
+  content: "";
+  position: fixed;        
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65); 
+  z-index: 0;
+  pointer-events: none;
+}
 
     .top-bar {
       position: fixed;
@@ -524,6 +523,7 @@
   </script>
 </body>
 </html>
+
 
 
 
