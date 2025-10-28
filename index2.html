@@ -5,195 +5,204 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>More About Me - Music Player</title>
   <style>
-:root {
-  --sidebar-w: 250px;
-  --topbar-h: 56px;
-}
+    :root {
+      --sidebar-w: 250px;
+      --topbar-h: 56px;
+    }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  font-family: sans-serif;
-  color: white;
-  background-image: url('snow.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+    html, body {
+      height: 100%;
+      font-family: sans-serif;
+      color: white;
+      background-image: url('snow.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+    }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 0;
-  pointer-events: none;
-}
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-.top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--topbar-h);
-  background: rgba(0,0,0,0.5);
-  padding: 8px 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  z-index: 1001;
-}
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--topbar-h);
+      background: rgba(0,0,0,0.5);
+      padding: 8px 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      z-index: 1001;
+    }
 
-.menu-btn {
-  background: white;
-  color: black;
-  border: none;
-  padding: 8px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-}
+    .menu-btn {
+      background: white;
+      color: black;
+      border: none;
+      padding: 8px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
 
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: calc(-1 * var(--sidebar-w));
-  width: var(--sidebar-w);
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  padding: calc(var(--topbar-h) + 14px) 20px 20px;
-  box-shadow: -3px 0 5px rgba(0,0,0,0.5);
-  transition: right 0.3s ease;
-  z-index: 1000;
-}
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: calc(-1 * var(--sidebar-w));
+      width: var(--sidebar-w);
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      padding: calc(var(--topbar-h) + 14px) 20px 20px;
+      box-shadow: -3px 0 5px rgba(0,0,0,0.5);
+      transition: right 0.3s ease;
+      z-index: 1000;
+    }
 
-body.sidebar-open .sidebar {
-  right: 0;
-}
+    body.sidebar-open .sidebar {
+      right: 0;
+    }
 
-.sidebar h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #cfcfcf;
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-  padding-bottom: 8px;
-}
+    .sidebar h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #cfcfcf;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding-bottom: 8px;
+    }
 
-.sidebar ul {
-  list-style: none;
-  padding-top: 10px;
-}
+    .sidebar ul {
+      list-style: none;
+      padding-top: 10px;
+    }
 
-.sidebar li {
-  margin: 10px 0;
-}
+    .sidebar li {
+      margin: 10px 0;
+    }
 
-.sidebar a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-}
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
 
-.sidebar a.active {
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  font-weight: bold;
-}
+    .sidebar a.active {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      font-weight: bold;
+    }
 
-.container {
-  position: relative;
-  z-index: 1;
-  padding: 0;
-}
+    .container {
+      display: block;
+      position: relative;
+      z-index: 1;
+      padding: 0;
+    }
 
-#draggableDiv {
-  width: 640px;
-  background: rgba(20, 20, 20, 0.7);
-  border-radius: 25px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  color: #fff;
-  padding: 40px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+    #draggableDiv {
+      width: 640px;
+      height: auto;
+      background: rgba(20, 20, 20, 0.7);
+      border-radius: 25px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      color: #fff;
+      padding: 40px;
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-.music-box {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 30px;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 500px;
-  text-align: center;
-  margin: 0 auto;
-}
+    .music-box {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      margin: 0 auto;
+    }
 
-.music-box h2 {
-  margin-bottom: 20px;
-}
+    .music-box h2 {
+      margin-bottom: 20px;
+    }
 
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
 
-.controls button {
-  background: black;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+    .controls button {
+      background: black;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-.controls button:hover {
-  background: #313499;
-}
+    .controls button:hover {
+      background: #313499;
+    }
 
-.track-info {
-  margin-top: 10px;
-  font-size: 18px;
-  color: #ccc;
-}
+    .track-info {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #ccc;
+    }
 
-audio {
-  width: 100%;
-  margin-top: 15px;
-  background: black;
-}
+    audio {
+      width: 100%;
+      margin-top: 15px;
+      background: black;
+    }
 
-@media (max-width: 700px) {
-  body {
-    overflow-x: auto;
-  }
+    @media (max-width: 700px) {
+      body {
+        overflow: hidden;
+      }
 
-  #draggableDiv {
-    width: 90%;
-    position: relative;
-    top: 30vh;
-    transform: none;
-    left: 0;
-    margin: 0 auto;
-  }
-}
-</style>
+      #draggableDiv {
+        width: 90%;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        padding: 30px;
+      }
+
+      .music-box {
+        padding: 25px;
+      }
+
+      .controls {
+        gap: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="top-bar">
@@ -298,3 +307,9 @@ audio {
   </script>
 </body>
 </html>
+
+
+
+
+
+
