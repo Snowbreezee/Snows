@@ -163,35 +163,35 @@
       background: black;
     }
 
-    @media (max-width: 600px) {
-      .container {
-        padding: 100px 10px;
-      }
+    #draggableDiv {
+      width: 500px;
+      padding: 30px;
+      background: rgba(34, 34, 34, 0.6);
+      color: white;
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      border-radius: 14px;
+      cursor: grab;
+      user-select: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(6px);
+    }
 
-      .controls {
-        flex-direction: column;
-        gap: 10px;
+    @media (max-width: 768px) {
+      #draggableDiv {
+        position: relative;
+        width: 90%;
+        left: 0;
+        top: 120px;
+        margin: 0 auto;
+        cursor: default;
       }
     }
-    
-#draggableDiv {
-  width: 500px;
-  padding: 30px;  
-  background: rgba(34, 34, 34, 0.6);  
-  color: white;
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  border-radius: 14px;
-  cursor: grab;
-  user-select: none;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); 
-  backdrop-filter: blur(6px);   
-}
   </style>
 </head>
 <body>
-    <div class="top-bar">
+  <div class="top-bar">
     <button class="menu-btn" onclick="document.body.classList.toggle('sidebar-open')">☰ Menu</button>
   </div>
 
@@ -211,85 +211,85 @@
       <li><a href="https://github.com/Snowbreezee" target="_blank">Github</a></li>
     </ul>
   </div>
-<div id="draggableDiv">
-  <div class="container">
-    <div class="music-box">
-      <h2>My top 5 songs</h2>
-      <div class="track-info" id="trackInfo">Track 1: Nope your too late i already died </div>
-      <audio id="audioPlayer" src="nope.mp3" controls></audio>
 
-      <div class="controls">
-        <button onclick="prevTrack()">⏮ </button>
-        <button onclick="togglePlay()">▶️ / ⏸</button>
-        <button onclick="nextTrack()">⏭ </button>
+  <div id="draggableDiv">
+    <div class="container">
+      <div class="music-box">
+        <h2>My top 5 songs</h2>
+        <div class="track-info" id="trackInfo">Track 1: Nope your too late i already died</div>
+        <audio id="audioPlayer" src="nope.mp3" controls></audio>
+
+        <div class="controls">
+          <button onclick="prevTrack()">⏮</button>
+          <button onclick="togglePlay()">▶️ / ⏸</button>
+          <button onclick="nextTrack()">⏭</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-const audio = document.getElementById('audioPlayer');
-const trackInfo = document.getElementById('trackInfo');
 
-const tracks = [
-  { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
-  { title: "Track 2: A stranger I remain", file: "stranger.mp3" },
-  { title: "Track 3: Run to the Edge", file: "Run.mp3" },
-  { title: "Track 4: Re:Re", file: "rere.mp3" },
-  { title: "Track 5: New Horizons", file: "newh.mp3" }
-];
+  <script>
+    const audio = document.getElementById('audioPlayer');
+    const trackInfo = document.getElementById('trackInfo');
+    const tracks = [
+      { title: "Track 1: Nope your too late i already died", file: "nope.mp3" },
+      { title: "Track 2: A stranger I remain", file: "stranger.mp3" },
+      { title: "Track 3: Run to the Edge", file: "Run.mp3" },
+      { title: "Track 4: Re:Re", file: "rere.mp3" },
+      { title: "Track 5: New Horizons", file: "newh.mp3" }
+    ];
+    let currentTrack = 0;
 
-let currentTrack = 0;
+    function loadTrack(index) {
+      currentTrack = index;
+      audio.src = tracks[currentTrack].file;
+      trackInfo.textContent = tracks[currentTrack].title;
+      audio.play();
+    }
 
-function loadTrack(index) {
-  currentTrack = index;
-  audio.src = tracks[currentTrack].file;
-  trackInfo.textContent = tracks[currentTrack].title;
-  audio.play();
-}
+    function nextTrack() {
+      currentTrack = (currentTrack + 1) % tracks.length;
+      loadTrack(currentTrack);
+    }
 
-function nextTrack() {
-  currentTrack = (currentTrack + 1) % tracks.length;
-  loadTrack(currentTrack);
-}
+    function prevTrack() {
+      currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+      loadTrack(currentTrack);
+    }
 
-function prevTrack() {
-  currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-  loadTrack(currentTrack);
-}
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
 
-function togglePlay() {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
-}
+    audio.addEventListener('ended', nextTrack);
 
-audio.addEventListener('ended', nextTrack);
+    const dragDiv = document.getElementById("draggableDiv");
+    let offsetX, offsetY, isDragging = false;
 
+    function isMobile() {
+      return window.matchMedia("(max-width: 768px)").matches;
+    }
 
-const dragDiv = document.getElementById("draggableDiv");
-let offsetX, offsetY, isDragging = false;
+    dragDiv.addEventListener("mousedown", (e) => {
+      if (isMobile() || e.target.closest("button, audio, input, select, textarea")) return;
+      isDragging = true;
+      offsetX = e.clientX - dragDiv.offsetLeft;
+      offsetY = e.clientY - dragDiv.offsetTop;
+    });
 
-dragDiv.addEventListener("mousedown", (e) => {
-  if (e.target.closest("button, audio, input, select, textarea")) return;
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging || isMobile()) return;
+      dragDiv.style.left = e.clientX - offsetX + "px";
+      dragDiv.style.top = e.clientY - offsetY + "px";
+    });
 
-  isDragging = true;
-  dragDiv.classList.add("dragging");
-  offsetX = e.clientX - dragDiv.offsetLeft;
-  offsetY = e.clientY - dragDiv.offsetTop;
-});
-
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-  dragDiv.style.left = e.clientX - offsetX + "px";
-  dragDiv.style.top = e.clientY - offsetY + "px";
-});
-
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-  dragDiv.classList.remove("dragging");
-});
-</script>
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+  </script>
 </body>
 </html>
