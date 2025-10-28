@@ -1,425 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Snowbreeze Hofer - Profile</title>
   <style>
     :root {
       --sidebar-w: 250px;
       --topbar-h: 56px;
+      --bg-overlay: rgba(0,0,0,0.65);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      min-height: 100vh;
-      font-family: sans-serif;
-      color: white;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: white; }
+    body {
       background-image: url('snow.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      position: relative;
+      min-height: 100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
-
-body::before {
-  content: "";
-  position: fixed;        
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.65); 
-  z-index: 0;
-  pointer-events: none;
-}
-
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: var(--bg-overlay);
+      z-index: 0;
+      pointer-events: none;
+    }
     .top-bar {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
+      right: 0;
       height: var(--topbar-h);
       background: rgba(0,0,0,0.5);
-      padding: 8px 20px;
+      padding: 8px 16px;
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      gap: 12px;
       z-index: 1001;
     }
-
     .menu-btn {
       background: white;
       color: black;
       border: none;
-      padding: 8px 15px;
+      padding: 8px 14px;
       font-size: 16px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 6px;
     }
-
     .sidebar {
       position: fixed;
       top: 0;
       right: calc(-1 * var(--sidebar-w));
       width: var(--sidebar-w);
       height: 100%;
-      background: rgba(0,0,0,0.8);
-      padding: calc(var(--topbar-h) + 14px) 20px 20px;
-      box-shadow: -3px 0 5px rgba(0,0,0,0.5);
-      transition: right 0.3s ease;
+      background: rgba(0,0,0,0.88);
+      padding: calc(var(--topbar-h) + 16px) 18px 20px;
+      box-shadow: -6px 0 18px rgba(0,0,0,0.5);
+      transition: right 0.28s ease;
       z-index: 1000;
+      overflow-y: auto;
     }
-
-    body.sidebar-open .sidebar {
-      right: 0;
-    }
-
-    .sidebar h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #cfcfcf;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      padding-bottom: 8px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding-top: 10px;
-    }
-
-    .sidebar li {
-      margin: 10px 0;
-    }
-
-    .sidebar a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .sidebar a.active {
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      font-weight: bold;
-    }
-
-    .page-indicator {
-      font-size: 20px;
-      color: gray;
-      margin-left: 6px;
-    }
-
+    body.sidebar-open .sidebar { right: 0; }
+    .sidebar h2 { font-size: 18px; color: #cfcfcf; margin-bottom: 8px; }
+    .sidebar ul { list-style: none; padding-left: 0; }
+    .sidebar li { margin: 10px 0; }
+    .sidebar a { color: #fff; text-decoration: none; font-size: 16px; }
+    .sidebar a.active { text-decoration: underline; text-underline-offset: 4px; font-weight: 600; }
+    .page-indicator { font-size: 16px; color: #bdbdbd; margin-right: 6px; }
     .profile-header {
       text-align: center;
-      padding: 80px 20px 20px;
+      padding: calc(var(--topbar-h) + 36px) 20px 20px;
       position: relative;
       z-index: 2;
     }
-    .profile-header h1,
-.profile-header h2 {
-  margin: 0;
-}
-.random{
-  font-size: 11px;
-  
-}
-    
-.Snowbreeze-blue .highlight {
-  color: #000000;  
-  position: relative;
-  z-index: 2;                 
-  opacity: 0.6;                  
-  filter: brightness(130%);
-}
-    
-@media (max-width: 600px) {
-  h1 {
-    font-size: 28px;
-  }
-
-  h2 {
-    font-size: 18px;
-  }
-
-  .circle-image {
-    width: 160px;
-    height: 160px;
-  }
-}
-
-
     .circle-image {
-      width: 250px;
-      height: 250px;
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
       object-fit: cover;
-      border: 5px solid white;
-      opacity: 0.9;
+      border: 5px solid rgba(255,255,255,0.95);
+      display: block;
+      margin: 0 auto;
+      max-width: 45vw;
+      max-height: 45vw;
     }
-
-    h1 {
-      font-size: 40px;
-      margin: 20px 0 10px;
-      font-weight: bold;
-    }
-
-    h2 {
-      font-size: 26px;
-      margin: 10px 0;
-      font-weight: bold;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-        line-height: 1.3;
-    }
-
-    .tooltip {
-      position: relative;
-      cursor: help;
-      text-decoration: underline;
-    }
-
+    h1 { font-size: 40px; margin: 16px 0 6px; font-weight: 800; color: #eaf6ff; }
+    h1 .highlight { color: #00a2ff; text-shadow: 0 0 8px rgba(0,162,255,0.35); }
+    h2 { font-size: 22px; margin: 6px 0 0; font-weight: 700; color: #dfefff; word-break: break-word; line-height: 1.2; }
+    .tooltip { position: relative; cursor: help; text-decoration: underline dotted; }
     .tooltip-text {
       visibility: hidden;
-      width: 240px;
-      background-color: rgba(0, 0, 0, 0.85);
+      width: 220px;
+      background: rgba(0,0,0,0.85);
       color: #fff;
       text-align: center;
       padding: 8px;
       border-radius: 6px;
       position: absolute;
-      z-index: 10;
+      z-index: 12;
       bottom: 120%;
       left: 50%;
       transform: translateX(-50%);
       opacity: 0;
-      transition: opacity 0.5s ease;
+      transition: opacity 180ms ease;
       pointer-events: none;
-      
-      
+      font-size: 13px;
     }
-
-    .tooltip:hover .tooltip-text {
-      visibility: visible;
-      opacity: 1;
+    .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      align-items: start;
+      max-width: 1200px;
+      margin: 12px auto 40px;
     }
-
-.container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  padding: 20px;
-  position: relative;
-  z-index: 1;
-  align-items: stretch;
-}
-
-.left-column, .right-column {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 20px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  height: 100%;
-  justify-content: space-between;
-}
-
-
+    .left-column, .right-column {
+      background: rgba(0,0,0,0.42);
+      padding: 18px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
     .section-content {
       position: relative;
       overflow: hidden;
       max-height: 60px;
       padding: 10px;
-      transition: max-height 0.3s ease, padding 0.3s ease;
+      transition: max-height 320ms ease;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
     }
-
-    .section-content:not(.collapsed) {
-      max-height: 1000px;
-    }
-
-    .section-body {
-      opacity: 1;
-      transition: opacity 0.3s ease;
-    }
-    .section-body ul {
-  list-style: none;
-  padding-left: 0;
-}
-    .section-body li {
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-    .section-content.collapsed .section-body {
-      opacity: 0;
-      pointer-events: none;
-    }
-
+    .section-content:not(.collapsed) { max-height: 2000px; }
+    .section-body { opacity: 1; transition: opacity 220ms ease 0ms; padding-top: 6px; }
+    .section-content.collapsed .section-body { opacity: 0; pointer-events: none; }
+    .section-body ul { list-style: none; padding-left: 0; }
+    .section-body li { font-weight: 700; margin-bottom: 0.45em; font-size: 15px; }
     .toggle-btn {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.06);
       color: white;
-      font-size: 20px;
+      font-size: 15px;
+      padding: 6px 8px;
+      border-radius: 8px;
       cursor: pointer;
+      z-index: 4;
     }
-
     .popup-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background-color: rgba(0, 0, 0, 0.6);
+      inset: 0;
+      background-color: rgba(0,0,0,0.6);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 2000;
+      padding: 16px;
     }
-
+    .popup-overlay.open { display: flex; }
     .popup-box {
-  background: #1a1a1a;
-  padding: 20px 30px;
-  border-radius: 10px;
-  color: white;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 0 20px black;
-  position: relative;
-  max-height: 80vh;           
-  overflow-y: auto;        
-  .popup-box::-webkit-scrollbar {
-  width: 8px;
-}
-
-.popup-box::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 4px;
-}
-
-.-box::-webkit-scrollbar-thumb:hover {
-  background: #888;
-}
-   
-
+      background: #121212;
+      padding: 18px 20px;
+      border-radius: 10px;
+      color: white;
+      max-width: 760px;
+      width: 100%;
+      max-height: 86vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      position: relative;
     }
-
     .close-btn {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 12px;
+      right: 16px;
       background: transparent;
       border: none;
       font-size: 24px;
       color: white;
       cursor: pointer;
     }
-
-@media (max-width: 768px) {
-  :root {
-    --topbar-h: 48px;
-    --sidebar-w: 220px;
-  }
-
-  .container {
- display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  padding: 20px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-  }
-
-  .left-column,
-  .right-column {
-  flex: 1 1 45%;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  }
-
-  .sidebar {
-    padding: calc(var(--topbar-h) + 12px) 16px 18px;
-  }
-      .section-body li {
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-}
-
-    
-  .profile-header {
-  z-index: 2;
-  }
-
-  .Snowbreeze-blue .highlight {
-  color: #000000;
-  text-shadow: 0 0 8px rgba(0, 162, 255, 0.8);
-  font-weight: bold;
-  font-size: 90px;
-  }
-
-    .uh{
-     color: rgba(0, 162, 255, 0.8);
+    @media (max-width: 900px) {
+      .container { gap: 20px; padding: 16px; max-width: 980px; }
+      .circle-image { width: 180px; height: 180px; max-width: 40vw; max-height: 40vw; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 20px; }
     }
-    .uh:hover{
-  color: blue;
-}
-    .wat{
-      margin-bottom: 15px;
+    @media (max-width: 768px) {
+      :root { --topbar-h: 48px; --sidebar-w: 260px; }
+      .top-bar { padding: 8px 12px; }
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 12px;
+        margin-top: 6px;
+      }
+      .left-column, .right-column { width: 100%; }
+      .circle-image { width: 160px; height: 160px; max-width: 48vw; max-height: 48vw; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 18px; }
+      .sidebar { width: 86vw; right: calc(-1 * 86vw); }
+      body.sidebar-open .sidebar { right: 0; }
     }
-  body {
-    zoom: 0.9;
-  }
-
-   html, body {
-     width: 100%; 
-     height: 100%;
-     overflow-x: hidden;
-   }
-    
+    .popup-box img { max-width: 100%; height: auto; display: block; margin: 8px auto; border-radius: 6px; }
+    .popup-box::-webkit-scrollbar { width: 8px; }
+    .popup-box::-webkit-scrollbar-thumb { background: #555; border-radius: 6px; }
+    .popup-box::-webkit-scrollbar-thumb:hover { background: #777; }
   </style>
 </head>
 <body>
   <div class="top-bar">
-    <button class="menu-btn" onclick="document.body.classList.toggle('sidebar-open')">☰ Menu</button>
+    <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="sidebar" aria-label="Open menu">☰ Menu</button>
   </div>
-
-  <div class="sidebar" aria-hidden="true">
+  <aside id="sidebar" class="sidebar" aria-hidden="true" role="navigation">
     <h2><span class="page-indicator">Pages</span></h2>
     <ul>
       <li><a href="#" class="active">Introduction</a></li>
       <li><a href="index2.html">Music Player</a></li>
     </ul>
-
-    <hr style="margin: 15px 0; border: 0; height: 1px; background-color: rgba(255, 255, 255, 0.2);">
-
+    <hr style="margin: 12px 0; border: 0; height: 1px; background-color: rgba(255, 255, 255, 0.12);">
     <h2>My Socials</h2>
     <ul>
-      <li><a href="https://www.roblox.com/users/7483179773/profile" target="_blank">Roblox</a></li>
-      <li><a href="https://www.facebook.com/profile.php?id=61578372636163" target="_blank">Facebook</a></li>
-      <li><a href="https://github.com/Snowbreezee" target="_blank">Github</a></li>
+      <li><a href="https://www.roblox.com/users/7483179773/profile" target="_blank" rel="noopener noreferrer">Roblox</a></li>
+      <li><a href="https://www.facebook.com/profile.php?id=61578372636163" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      <li><a href="https://github.com/Snowbreezee" target="_blank" rel="noopener noreferrer">Github</a></li>
     </ul>
-  </div>
-
-  <div class="profile-header">
-    <img src="data:image/jpeg;base64,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" alt="Circular Image" class="circle-image">
-    <h1 class="Snowbreeze-blue"> <span class="highlight"> Snowbreeze </h1>
+  </aside>
+  <header class="profile-header">
+    <img src="data:image/jpeg;base64,/9j/4AAQ..." alt="Circular Image" class="circle-image">
+    <h1><span class="highlight">Snowbreeze</span></h1>
     <h2><span class="tooltip">MAWD101<span class="tooltip-text">Mobile Apps and Web Development 101</span></span></h2>
-  </div>
-
-  <div class="container">
-    <div class="left-column">
-      <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
+  </header>
+  <main class="container">
+    <section class="left-column">
+      <div class="section-content collapsed" id="personal">
+        <button class="toggle-btn" aria-expanded="false" onclick="toggleSection(this)" aria-controls="personal">⌄</button>
         <h2>A. Personal Info</h2>
         <div class="section-body">
           <ul>
@@ -431,9 +259,8 @@ body::before {
           </ul>
         </div>
       </div>
-
-      <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
+      <div class="section-content collapsed" id="dislikes">
+        <button class="toggle-btn" aria-expanded="false" onclick="toggleSection(this)" aria-controls="dislikes">⌄</button>
         <h2>B. Dislikes</h2>
         <div class="section-body">
           <ul>
@@ -443,119 +270,61 @@ body::before {
           </ul>
         </div>
       </div>
-    </div>
-
-    <div class="right-column">
-      <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
+    </section>
+    <section class="right-column">
+      <div class="section-content collapsed" id="skills">
+        <button class="toggle-btn" aria-expanded="false" onclick="toggleSection(this)" aria-controls="skills">⌄</button>
         <h2>C. Skills</h2>
         <div class="section-body">
-          <div class="wat">
           <ul>
             <li>I can do programming</li>
             <li>I can cook, I guess</li>
-            <li>Building Desktop computers and upgrading laptops</li>
-            <li> Using complicated operating systems like Gentoo and <span class="random"> or </span> Arch Linux <span class="random">(which is like super useless)</span> </li>
+            <li>Building Desktop computers</li>
           </ul>
         </div>
       </div>
-        </div>
-      <div class="section-content collapsed">
-        <button class="toggle-btn" onclick="toggleSection(this)">[⌄]</button>
-        <h2>D. Interests</h2>
+      <div class="section-content collapsed" id="anime">
+        <button class="toggle-btn" aria-expanded="false" onclick="toggleSection(this)" aria-controls="anime">⌄</button>
+        <h2>D. Favorite Anime</h2>
         <div class="section-body">
           <ul>
-            <li>Click <a href="#" class="uh" onclick="openPopup(event)">here</a> for my top Anime picks list,</li>
-            <li>Playing Roblox and watching YouTube,</li>
-            <li>Finding Ways to automate tasks,</li>
-            <li>Watching Films.</li>
+            <li><a href="#" onclick="openPopup('animePopup')">Attack on Titan</a></li>
           </ul>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div id="favs" class="popup-overlay">
+    </section>
+  </main>
+  <div id="animePopup" class="popup-overlay">
     <div class="popup-box">
-      <button class="close-btn" onclick="closePopup()">×</button>
-      <h3>My Top Anime Picks</h3>
-      <br \>
-      <ol>
-        
-        <li>Cyberpunk: Edgerunners</li>
-        <img src="images.jpg" alt="Cyberpunk" width="150px"; height="200px;">
-        <br \>
-        <br \>
-        <li>Attack on Titan</li>
-        <img src="AOT.jpg" alt="Attack On Titan" width="150px"; height="200px;">
-        <br \>
-        <br \>
-        <li>Sword Art Online</li>
-        <img src="sword-art-online-ii.jpg" alt="Sword Art Online" width="150px"; height="200px;">
-        <br \>
-        <br \>
-        <li>Jujutsu Kaisen</li>
-        <img src="jujutsu.jpg" alt="Jujutsu Kaisen" width="150px"; height="200px;">
-        <br \>
-        <br \>
-        <li>Katekyo Hitman Reborn!</li>
-        <img src="Hitman.jpg" alt="Katekyo Hitman Reborn!" width="150px"; height="200px;">
-      </ol>
+      <button class="close-btn" onclick="closePopup()">&times;</button>
+      <h2>Attack on Titan</h2>
+      <img src="AOT.jpg" alt="Attack on Titan">
     </div>
   </div>
-
   <script>
-    function toggleSection(button) {
-  const section = button.parentElement;
-  const body = section.querySelector(".section-body");
-  section.classList.toggle("collapsed");
-  button.textContent = section.classList.contains("collapsed") ? "[⌄]" : "[ - ]";
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    menuBtn.addEventListener('click', () => {
+      document.body.classList.toggle('sidebar-open');
+      const open = document.body.classList.contains('sidebar-open');
+      menuBtn.setAttribute('aria-expanded', open);
+      sidebar.setAttribute('aria-hidden', !open);
+    });
+    function toggleSection(btn) {
+      const section = btn.parentElement;
+      section.classList.toggle('collapsed');
+      btn.setAttribute('aria-expanded', !section.classList.contains('collapsed'));
     }
-
-    function openPopup(event) {
-      event.preventDefault();
-      document.getElementById("favs").style.display = "flex";
+    function openPopup(id) {
+      document.getElementById(id).classList.add('open');
     }
-
     function closePopup() {
-      document.getElementById("favs").style.display = "none";
+      document.querySelectorAll('.popup-overlay').forEach(p => p.classList.remove('open'));
     }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('popup-overlay')) closePopup();
+    });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
