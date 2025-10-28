@@ -266,30 +266,34 @@
 
     audio.addEventListener('ended', nextTrack);
 
-    const draggableDiv = document.getElementById('draggableDiv');
+  const dragDiv = document.getElementById("draggableDiv");
+  let offsetX, offsetY, isDragging = false;
 
-let isDragging = false;
-let offsetX, offsetY;
+  dragDiv.addEventListener("mousedown", (e) => {
+    if (e.target.closest("button, audio")) return;
+    isDragging = true;
+    dragDiv.classList.add("dragging");
+    offsetX = e.clientX - dragDiv.offsetLeft;
+    offsetY = e.clientY - dragDiv.offsetTop;
+  });
 
-draggableDiv.addEventListener('mousedown', (e) => {
-  isDragging = true;
-  offsetX = e.clientX - draggableDiv.getBoundingClientRect().left;
-  offsetY = e.clientY - draggableDiv.getBoundingClientRect().top;
-  draggableDiv.style.cursor = 'grabbing';
-});
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    dragDiv.style.left = e.clientX - offsetX + "px";
+    dragDiv.style.top = e.clientY - offsetY + "px";
+  });
 
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    dragDiv.classList.remove("dragging");
+  });
 
-  draggableDiv.style.left = (e.clientX - offsetX) + 'px';
-  draggableDiv.style.top = (e.clientY - offsetY) + 'px';
-});
-
-document.addEventListener('mouseup', () => {
-  isDragging = false;
-  draggableDiv.style.cursor = 'grab';
-});
-    
+  function prevTrack() { console.log("Prev track"); }
+  function togglePlay() {
+    const player = document.getElementById("audioPlayer");
+    player.paused ? player.play() : player.pause();
+  }
+  function nextTrack() { console.log("Next track"); }
   </script>
 </body>
 </html>
